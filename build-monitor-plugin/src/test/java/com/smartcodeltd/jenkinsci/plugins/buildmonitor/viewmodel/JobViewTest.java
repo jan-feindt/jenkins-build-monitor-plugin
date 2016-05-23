@@ -217,11 +217,21 @@ public class JobViewTest {
 
     @Test
     public void should_describe_the_job_as_failing_if_the_last_build_failed() {
-        for (Result result : asFollows(FAILURE, ABORTED)) {
+        for (Result result : asFollows(FAILURE)) {
             view = a(jobView().of(
                     a(job().whereTheLast(build().finishedWith(result)))));
 
             assertThat(view.status(), containsString("failing"));
+        }
+    }
+    
+    @Test
+    public void should_describe_the_job_as_failing_if_the_last_build_failed() {
+        for (Result result : asFollows(ABORTED)) {
+            view = a(jobView().of(
+                    a(job().whereTheLast(build().finishedWith(result)))));
+
+            assertThat(view.status(), containsString("aborted"));
         }
     }
 
